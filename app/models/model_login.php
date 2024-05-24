@@ -16,11 +16,19 @@ class model_login extends Model
         $result = $this->doSelect($sql, $params);
 
         if (sizeof($result) == 0) {
-            echo "not found";
+            echo json_encode(array(
+                    "msg" => "not found",
+                    "status_code"=>  "404"
+                )
+            );
         } else {
             $this->session_set("username", $result[0]['username']);
             $this->checkLogin = $result[0]['username'];
-            echo "ok";
+            echo json_encode(array(
+                    "msg" => "ok",
+                    "status_code"=>  "200"
+                )
+            );
         }
     }
 }
