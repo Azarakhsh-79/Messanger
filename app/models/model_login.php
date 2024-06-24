@@ -11,7 +11,7 @@ class model_login extends Model
 
     function check_data($post)
     {
-        $sql = "SELECT * FROM tbl_users WHERE username=? and password=?";
+        $sql = "SELECT * FROM users WHERE username=? and password=?";
         $params = array($post['username'], md5($post['password']));
         $result = $this->doSelect($sql, $params);
 
@@ -23,6 +23,9 @@ class model_login extends Model
             );
         } else {
             $this->session_set("username", $result[0]['username']);
+            $this->session_set("id", $result[0]['id']);
+            $this->session_set("name", $result[0]['name']);
+
             $this->checkLogin = $result[0]['username'];
             echo json_encode(array(
                     "msg" => "ok",
@@ -30,6 +33,10 @@ class model_login extends Model
                 )
             );
         }
+    }
+    function exit(){
+        session_destroy();
+        header('Location:'.URL);
     }
 }
 ?>

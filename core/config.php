@@ -2,7 +2,7 @@
 //Database config
 const USERNAME = "root";
 const PASSWORD = "";
-const DATABASE = "farawin";
+const DATABASE = "database";
 const SERVER_NAME = "localhost";
-const URL = "https://farawin-messanger.test/";
+const URL = "https://localhost/Farawin-Messanger/";
 ?>
