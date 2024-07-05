@@ -330,6 +330,7 @@ body {
 #modal,
 #modal_update,
 #massege_modal,
+#delit_acunt,
 #delit_modal{
   display: none;
   position: fixed;
@@ -385,4 +386,49 @@ body {
 #username::-webkit-inner-spin-button,
 #username::-webkit-outer-spin-button {
   -webkit-apperance: none;
+}
+#setings {
+
+  height: calc(100% - 10px);
+  width: 202px;
+  display: flex;
+  text-align: center;
+  background: #635e5e;
+  border-radius: 15px;
+  margin: 5px;
+  display: none;
+
+}
+
+#s_img {
+
+  width: 194px;
+  height: 100px;
+  display: inline-flex;
+  position: relative;
+  margin: 5px;
+  border-radius: 12px;
+}
+
+#setings ul {
+
+  position: fixed;
+  list-style: none;
+  margin-right: 5px;
+}
+
+#setings ul li {
+  width: 180px;
+  height: 30px;
+  text-align: right;
+  margin: 5px;
+  border-bottom: 0.5px solid;
+  cursor: pointer;
+  background: #676767;
+  border-radius: 5px;
+
+}
+
+#setings ul li:hover {
+  background: silver;
 }

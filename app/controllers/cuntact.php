@@ -37,4 +37,8 @@ class cuntact extends Controller
     {
         $this->model->delet($_POST);
     }
+    function delete_acunt()
+    {
+        $this->model->delete_acunt($_POST);
+    }
 }

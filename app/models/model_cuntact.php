@@ -120,7 +120,7 @@ class model_cuntact extends Model
             $sql = " UPDATE `users` SET `name`=?,`password`=? WHERE username= ? ";
             $params = array($post['edit_name'], md5($post['edit_pas2']), $_SESSION['username']);
             $result = $this->doSelect($sql, $params);
-            
+
         } else {
 
             $sql = " UPDATE `users` SET `name`=? WHERE username =? ";
@@ -191,6 +191,32 @@ class model_cuntact extends Model
         echo json_encode(array(
             "msg" => "ok",
             "status_code" =>  "110"
+        ));
+
+    }
+    function delete_acunt($post){
+
+        
+        $sql="DELETE FROM `massege` WHERE (sendid=?) or ( getid =?) ";
+        $params = array($_SESSION['id'],$_SESSION['id'] );
+        $result = $this->doQuery($sql, $params);
+
+        $sql2 ="DELETE FROM `cuntact` WHERE (userid=? ) or (cuntactid =?) ";
+        $params2 = array($_SESSION['id'],$_SESSION['id'] );
+        $result2 = $this->doQuery($sql2, $params2);
+
+        $path = 'D:/xamp/htdocs/Farawin-Messanger/public/images/profile/'.$_SESSION['src'];
+        if(file_exists($path)){
+            unlink($path);
+        }
+
+        $sql3 = "DELETE FROM users WHERE id=? ";
+        $params3 = array($_SESSION['id']);
+        $result3 =$this->doQuery($sql3,$params3);
+
+        echo json_encode(array(
+            'msg'=> 'delete acunt == ok ',
+            'status_code'=> '111'
         ));
 
     }

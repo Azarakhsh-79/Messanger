@@ -40,8 +40,8 @@
                 <div class="listhead">
                     <?= $_SESSION['name']; ?>
                 </div>
-                <i id="add" class="fa-regular fa-circle-plus"></i>
-                <i id="seting" class="fa-duotone fa-gear"></i>
+                <i id="add" class="fa-regular fa-circle-plus" title="افزودن مخاطب"></i>
+                <i id="seting" class="fa-duotone fa-gear" title="تنظیمات"></i>
 
 
 
@@ -94,66 +94,20 @@
                 <img id='s_img' src=<?= $path ?> class="img" alt="">
             </div>
             <ul>
-                <li>guict</li>
-                <li>um8r8</li>
+
                 <li id="edit">&ensp;<i class="fa-solid fa-user-pen"></i>&ensp; ویرایش</li>
-                <li id="s_exet">&ensp;<i class="fa-duotone fa-right-from-bracket"></i>&ensp; بستن</li>
-                <li id="Exit">&ensp;<i class="fa-duotone fa-right-from-bracket"></i>&ensp; خروج از حساب</li>
+                <li id="s_exet">&ensp;<i class="fa-solid fa-circle-xmark"></i>&ensp; بستن </li>
+                <li id="Exit">&ensp;<i class="fa-solid fa-left-long-to-line fa-flip-horizontal"></i>&ensp; خروج از حساب</li>
+                <li id="delet_acunt">&ensp;<i class="fa-solid fa-trash-can"></i>&ensp; حذف حساب کاربری</li>
             </ul>
 
-            <style>
-                #setings {
 
-                    height: calc(100% - 10px);
-                    width: 202px;
-                    display: flex;
-                    text-align: center;
-                    background: #635e5e;
-                    border-radius: 15px;
-                    margin: 5px;
-                    display: none;
-
-                }
-
-                #s_img {
-
-                    width: 194px;
-                    height: 100px;
-                    display: inline-flex;
-                    position: relative;
-                    margin: 5px;
-                    border-radius: 12px;
-                }
-
-                #setings ul {
-
-                    position: fixed;
-                    list-style: none;
-                    margin-right: 5px;
-                }
-
-                #setings ul li {
-                    width: 180px;
-                    height: 30px;
-                    text-align: right;
-                    margin: 5px;
-                    border-bottom: 0.5px solid;
-                    cursor: pointer;
-                    background: #676767;
-                    border-radius: 5px;
-
-                }
-
-                #setings ul li:hover {
-                    background: silver;
-                }
-            </style>
 
 
         </div>
 
         <div id="modal">
-            <div class="modalform">
+            <div class="modal">
                 <h4>افزودن مخاطب</h4>
                 <input id="phone" type="text" placeholder="شماره موبایل">
                 <button id="mbtn">ذخیره</button>
@@ -194,7 +148,7 @@
 
         </div>
 
-        <div id="massege_modal">
+        <div id="massege_modal" class="modal">
 
             <li id="massege_close" class="icon"><i class="fa-solid fa-rectangle-xmark"></i></li>
 
@@ -214,6 +168,13 @@
             <button id="delit_close">نه</button>
         </div>
 
+        <div id="delit_acunt" class="mpdal">
+            <p>حساب کاربری حذف خواهد شد </p><br>
+            <p>همه اطلاعات پاک خواهد شد </p>
+            <button id="delit_acunt_yes">بله</button>
+            <button id="delit_acunt_close">نه</button>
+        </div>
+
 
 
     </div>
@@ -226,6 +187,7 @@
 
     <script src="public/js/jquery-3.4.1.min.js"></script>
     <!-- <script src="public/js/indexjs.js"></script> -->
+
     <script>
         // ===================public=============================
         $("#seting").on('click', () => {
@@ -255,6 +217,33 @@
             $("#massege_modal").css({
                 'display': 'none'
             })
+        })
+        $("#delet_acunt").on('click', () => {
+            $("#delit_acunt").css({
+                'display': 'block'
+            })
+
+        })
+        $("#delit_acunt_yes").on('click', () => {
+            $.ajax({
+                url: 'cuntact/delete_acunt',
+                type: 'post',
+                success: () => {
+                    $("#delit_acunt").css({
+                        'display': 'none'
+                    })
+                    location.href = "https://localhost/Farawin-Messanger/"
+
+                }
+            })
+
+        })
+        $("#delit_acunt_close").on('click', () => {
+            $("#delit_acunt").css({
+                'display': 'none'
+            })
+            
+            
         })
 
         $("#Exit").on('click', () => {
@@ -343,20 +332,18 @@
                     'username': sessionStorage.getItem('getmassege')
                 },
                 success: (response) => {
-                    response=JSON.parse(response);
-                    if(response.status_code = '110'){
-                         $("#delit_modal").css({
-                        'display': 'none'
-                    })
+                    response = JSON.parse(response);
+                    if (response.status_code = '110') {
+                        $("#delit_modal").css({
+                            'display': 'none'
+                        })
                     }
 
-                   
+
                 }
             })
 
         })
-
-
 
         function cuntact_data() {
 
@@ -441,12 +428,12 @@
                             var pp = document.createElement('p');
 
                             pp.textContent = response.username;
-                            var b = document.createElement('b');
+                            // var b = document.createElement('b');
 
                             imgbox.append(img)
 
                             message.appendChild(pp);
-                            message.appendChild(b);
+                            // message.appendChild(b);
 
                             listhead.appendChild(h4);
                             listhead.appendChild(p);
@@ -696,8 +683,6 @@
 
             }
         })
-
-
 
         function get_message() {
             document.getElementById('messagebox').innerHTML = '';
