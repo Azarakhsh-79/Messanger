@@ -33,4 +33,8 @@ class cuntact extends Controller
     {
         $this->model->get_message($_POST);
     }
+    function delet()
+    {
+        $this->model->delet($_POST);
+    }
 }

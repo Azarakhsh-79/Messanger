@@ -32,6 +32,10 @@ class register extends  Controller
     {
         $this->model->check_username($_POST);
     }
+    function checkimg()
+    {
+        $this->model->checkimg($_POST);
+    }
 
 
 

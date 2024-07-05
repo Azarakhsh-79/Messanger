@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 class model_cuntact extends Model
 {
     function __construct()
@@ -8,7 +10,7 @@ class model_cuntact extends Model
     }
     function check_data($post)
     {
-        //برسی این که شماره ورودی شماره خودمان است یا نه
+        
         if ($post['phone'] == $_SESSION['username']) {
 
             echo json_encode(
@@ -18,7 +20,7 @@ class model_cuntact extends Model
                 )
             );
         } else {
-            //گرفتن اطلاعات شماره وارد شده از جدول یوزرنیم 
+
             $sql = "SELECT * FROM users WHERE username=? ";
             $params = array($post['phone']);
             $result = $this->doSelect($sql, $params);
@@ -32,13 +34,10 @@ class model_cuntact extends Model
                     )
                 );
             } else {
-
-                //گرفتن اطلاعات جدول کانتکت با ایدی شماره وارد شده
+             
                 $sql2 = "SELECT * FROM cuntact WHERE cuntactid=? and userid=?";
                 $params2 = array($result[0]['id'], $_SESSION['id']);
                 $result2 = $this->doSelect($sql2, $params2);
-
-
 
                 if (sizeof($result2) == 0) {
 
@@ -53,7 +52,6 @@ class model_cuntact extends Model
                         )
                     );
                 } else {
-
                     echo json_encode(
                         array(
                             "msg" =>  "مخاطب قبلا اضافه شده است",
@@ -70,7 +68,6 @@ class model_cuntact extends Model
         $sql = "SELECT * FROM cuntact WHERE userid=?";
         $params = array($_SESSION['id']);
         $result = $this->doSelect($sql, $params);
-
 
         if (sizeof($result) == 0) {
 
@@ -120,10 +117,10 @@ class model_cuntact extends Model
 
         if ($post['edit_pas2'] != '') {
 
-
             $sql = " UPDATE `users` SET `name`=?,`password`=? WHERE username= ? ";
             $params = array($post['edit_name'], md5($post['edit_pas2']), $_SESSION['username']);
             $result = $this->doSelect($sql, $params);
+            
         } else {
 
             $sql = " UPDATE `users` SET `name`=? WHERE username =? ";
@@ -154,6 +151,11 @@ class model_cuntact extends Model
         $params = array($data['id']);
         $result = $this->doSelect($sql, $params);
 
+        /// $time = time() - $result[0]['statustime'];
+        $time3 = date('y/m/d-H:i', $result[0]['statustime']);
+        //$time2 = getdate($time);
+
+
         if (sizeof($result) == 0) {
             echo json_encode(array(
                 "msg" => "ok",
@@ -161,16 +163,35 @@ class model_cuntact extends Model
             ));
         } else {
             echo json_encode(array(
+
                 "name" => $result[0]['name'],
                 "username" => $result[0]['username'],
+                "status" => $result[0]['status'],
+                "statustime" => $time3,
+                "userimg" => $result[0]['userimg'],
+
                 "status_code" =>  "108"
             ));
         }
     }
-   
-    
+    function delet($post){
 
+        $sql = "SELECT * FROM users WHERE username=? ";
+        $params = array($post['username']);
+        $result = $this->doSelect($sql, $params);
 
+        $sql2 ="DELETE FROM `massege` WHERE (sendid=? and getid =?) or (sendid=? and getid =?) ";
+        $params2 = array($_SESSION['id'],$result[0]['id'],$result[0]['id'],$_SESSION['id'] );
+        $result2 = $this->doQuery($sql2, $params2);
 
+        $sql2 ="DELETE FROM `cuntact` WHERE (userid=? and cuntactid =?) or (userid=? and cuntactid =?) ";
+        $params2 = array($_SESSION['id'] ,$result[0]['id'] ,$result[0]['id'] ,$_SESSION['id'] );
+        $result2 = $this->doQuery($sql2, $params2);
 
+        echo json_encode(array(
+            "msg" => "ok",
+            "status_code" =>  "110"
+        ));
+
+    }
 }

@@ -12,6 +12,10 @@ class massege extends Controller
         $this->model->massege();
     }
     
+    function get_massage(){
+        $this->model->get_massage($_POST);
+    }
+    
 
 }
 

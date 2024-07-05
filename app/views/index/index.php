@@ -19,27 +19,29 @@
 
 
     <div class="motherdiv">
-        <div class="iconbar">
+        <!-- <div class="iconbar">
             <li id="add" title="افزودن مخاطب"><i class="fa-regular fa-circle-plus"></i></li>
-            <!-- <li id="refresh"><i class="fa-duotone fa-rotate "></i></li> -->
+            <li id="refresh"><i class="fa-duotone fa-rotate "></i></li>
             <li id="edit" title="ویرایش اطلاعات"><i class="fa-solid fa-user-pen"></i></li>
             <li id="Exit" title="خروج"><i class="fa-duotone fa-right-from-bracket"></i></i></li>
 
-        </div>
+        </div> -->
+
 
 
         <div class="right">
 
             <div class="header">
                 <div class="userimg">
-                    <img src="public/images/profile/a1" class="img" alt="">
+                    <?php
+                    $path = URL . "/public/images/profile/" . $_SESSION['src'] ?>
+                    <img src=<?= $path ?> class="img" alt="">
                 </div>
                 <div class="listhead">
                     <?= $_SESSION['name']; ?>
                 </div>
-                <div class="menu">
-
-                </div>
+                <i id="add" class="fa-regular fa-circle-plus"></i>
+                <i id="seting" class="fa-duotone fa-gear"></i>
 
 
 
@@ -51,25 +53,26 @@
         </div>
 
         <div id="left" class="left">
+
             <div class="header">
                 <div class="textimg">
                     <div class="userimg">
-                        <img src="/app/views/index/imgg.jpeg" class="img" alt="">
+
+                        <img src="" id="userimg" class="img" alt="">
                     </div>
-                    <h4 id="usermessage">a<br> <span>onloin</span></h4>
+                    <h4 id="usermessage"><br> <span>onloin</span></h4>
                 </div>
                 <ul class="icon">
+
+                    <li id="delet_user"><i class="fa-solid fa-user-slash"></i></li>
+
                     <li id="close"><i class="fa-solid fa-rectangle-xmark"></i></li>
                 </ul>
             </div>
-            <div class="messagebox">
-                <div class="messagee sel">
-                    <p>aaaaaaaaaaaaaaaaaaaaaaddgggggggggggggdddddddddddddddddddddaa
-                        aaaaaaaaaaaaaaaaaaaa <br> <span>time</span></p>
-                </div>
-                <div class="messagee get">
-                    <p>bbbbb<br> <span>time</span></p>
-                </div>
+
+            <div id="messagebox" class="messagebox">
+
+
             </div>
 
             <div class="chatbox">
@@ -81,6 +84,70 @@
 
 
             </div>
+        </div>
+
+        <div id="setings">
+            <h3> setings</h3>
+            <div id="s_img">
+                <?php
+                $path = URL . "/public/images/profile/" . $_SESSION['src'] ?>
+                <img id='s_img' src=<?= $path ?> class="img" alt="">
+            </div>
+            <ul>
+                <li>guict</li>
+                <li>um8r8</li>
+                <li id="edit">&ensp;<i class="fa-solid fa-user-pen"></i>&ensp; ویرایش</li>
+                <li id="s_exet">&ensp;<i class="fa-duotone fa-right-from-bracket"></i>&ensp; بستن</li>
+                <li id="Exit">&ensp;<i class="fa-duotone fa-right-from-bracket"></i>&ensp; خروج از حساب</li>
+            </ul>
+
+            <style>
+                #setings {
+
+                    height: calc(100% - 10px);
+                    width: 202px;
+                    display: flex;
+                    text-align: center;
+                    background: #635e5e;
+                    border-radius: 15px;
+                    margin: 5px;
+                    display: none;
+
+                }
+
+                #s_img {
+
+                    width: 194px;
+                    height: 100px;
+                    display: inline-flex;
+                    position: relative;
+                    margin: 5px;
+                    border-radius: 12px;
+                }
+
+                #setings ul {
+
+                    position: fixed;
+                    list-style: none;
+                    margin-right: 5px;
+                }
+
+                #setings ul li {
+                    width: 180px;
+                    height: 30px;
+                    text-align: right;
+                    margin: 5px;
+                    border-bottom: 0.5px solid;
+                    cursor: pointer;
+                    background: #676767;
+                    border-radius: 5px;
+
+                }
+
+                #setings ul li:hover {
+                    background: silver;
+                }
+            </style>
 
 
         </div>
@@ -113,20 +180,39 @@
             </div>
 
             <div id="edit_username" class="edit_username">
-                <p>هر قسمت که خالی باشه تغیر نمیکنه</p>
+
 
                 <input id="edit_name" type="text" placeholder="تغیر نام ">
                 <input id="edit_pas2" type="text" placeholder="تغیر رمز">
                 <input id="confrim_edit_pas" type="text" placeholder="تکرار رمز">
 
                 <button id="editbtn2">ذخیره</button>
-                <button id="e_c_btn"> خروج</button><br>
+                <button id="e_c_btn2"> خروج</button><br>
                 <span id="edit_span2"></span>
             </div>
 
 
         </div>
 
+        <div id="massege_modal">
+
+            <li id="massege_close" class="icon"><i class="fa-solid fa-rectangle-xmark"></i></li>
+
+            <ul>
+                <li>ویرایش</li>
+                <li>حذف</li>
+                <li>کپی</li>
+            </ul>
+
+
+        </div>
+
+        <div id="delit_modal" class="mpdal">
+            <p>مخاطب حذف شود ؟؟؟</p><br>
+            <p>همه اطلاعات پاک خواهد شد </p>
+            <button id="delit_cuntact">بله</button>
+            <button id="delit_close">نه</button>
+        </div>
 
 
 
@@ -141,11 +227,32 @@
     <script src="public/js/jquery-3.4.1.min.js"></script>
     <!-- <script src="public/js/indexjs.js"></script> -->
     <script>
-
         // ===================public=============================
+        $("#seting").on('click', () => {
+            $("#setings").css({
+                'display': 'block'
+            })
+        })
+        $("#s_exet").on('click', () => {
+            $("#setings").css({
+                'display': 'none'
+            })
+        })
 
         $("#close").on('click', () => {
             $("#left").css({
+                'display': 'none'
+            })
+            $("#1" + sessionStorage.getItem('getmassege')).css({
+                'background': '#E6E6FA'
+            });
+            $("#2" + sessionStorage.getItem('getmassege')).css({
+                'border-radius': '50%',
+                'transition': 'border-radius 0.5s'
+            });
+        })
+        $("#massege_close").on('click', () => {
+            $("#massege_modal").css({
                 'display': 'none'
             })
         })
@@ -162,9 +269,9 @@
         })
 
 
-        // ===================add cuntact========================
+        // =================== cuntact========================
 
-         $("#add").on('click', () => {
+        $("#add").on('click', () => {
             $("#modal").css({
                 'display': 'block'
             })
@@ -214,6 +321,43 @@
             })
         })
 
+        $("#delet_user").on('click', () => {
+            $("#delit_modal").css({
+                'display': 'block'
+            })
+
+        })
+
+        $("#delit_close").on('click', () => {
+            $("#delit_modal").css({
+                'display': 'none'
+            })
+
+        })
+
+        $("#delit_cuntact").on('click', () => {
+            $.ajax({
+                url: 'cuntact/delet',
+                type: 'post',
+                data: {
+                    'username': sessionStorage.getItem('getmassege')
+                },
+                success: (response) => {
+                    response=JSON.parse(response);
+                    if(response.status_code = '110'){
+                         $("#delit_modal").css({
+                        'display': 'none'
+                    })
+                    }
+
+                   
+                }
+            })
+
+        })
+
+
+
         function cuntact_data() {
 
             $.ajax({
@@ -258,10 +402,17 @@
                             var block = document.createElement('div');
                             block.classList.add('block');
                             block.setAttribute("onclick", 'block_click("' + response.username + '")');
-                            block.setAttribute('id', 'block');
+                            block.setAttribute('id', '1' + response.username);
 
                             var imgbox = document.createElement('div');
                             imgbox.classList.add('imgbox');
+                            imgbox.setAttribute('id', '2' + response.username)
+
+
+                            var img = document.createElement('img')
+                            img.classList.add('img')
+                            img.setAttribute('id', 'img' + response.username)
+                            img.setAttribute('src', "https://localhost/Farawin-Messanger/public/images/profile/" + response.userimg)
 
                             var detalis = document.createElement('div');
                             detalis.classList.add('detalis');
@@ -275,6 +426,11 @@
                             h4.textContent = response.name;
 
                             var p = document.createElement('p');
+                            if (response.status == 1) {
+                                p.textContent = 'online'
+                            } else if (response.status == 0) {
+                                p.textContent = response.statustime;
+                            }
                             p.classList.add('time');
 
 
@@ -286,6 +442,8 @@
 
                             pp.textContent = response.username;
                             var b = document.createElement('b');
+
+                            imgbox.append(img)
 
                             message.appendChild(pp);
                             message.appendChild(b);
@@ -303,7 +461,7 @@
 
                             $('#chatlist').prepend(block);
 
-                           
+
 
 
                         }
@@ -332,21 +490,60 @@
 
         function refresh_cuntact() {
             cuntact_data();
-
-
-
         }
 
         function block_click(username) {
-            
+
             $("#left").css({
                 'display': 'block'
             });
 
             $("#usermessage").text($('#' + username).html());
+            $("#userimg").attr('src', $('#img' + username).attr('src'));
 
-            sessionStorage.removeItem('getmassege');
-            sessionStorage.setItem('getmassege',username);
+            $("#1" + username).css({
+                'background': '#D3D3D3'
+            });
+
+            $("#2" + username).css({
+                'border-radius': '25%',
+                'transition': 'border-radius 0.5s'
+            });
+
+            if (sessionStorage.getItem('getmassege') == username) {
+                $("#left").css({
+                    'display': 'none'
+                });
+                $("#1" + sessionStorage.getItem('getmassege')).css({
+                    'background': '#E6E6FA'
+                });
+
+                $("#2" + sessionStorage.getItem('getmassege')).css({
+                    'border-radius': '50%',
+                    'transition': 'border-radius 0.5s'
+                });
+                sessionStorage.removeItem('getmassege');
+            } else {
+                $("#1" + sessionStorage.getItem('getmassege')).css({
+                    'background': '#E6E6FA'
+                });
+
+                $("#2" + sessionStorage.getItem('getmassege')).css({
+                    'border-radius': '50%',
+                    'transition': 'border-radius 0.5s'
+                });
+
+
+                sessionStorage.removeItem('getmassege');
+                sessionStorage.setItem('getmassege', username);
+                get_message()
+            }
+
+
+
+
+
+
 
 
 
@@ -368,6 +565,11 @@
                 'display': 'none'
             })
         })
+        $("#e_c_btn2").on('click', () => {
+            $("#modal_update").css({
+                'display': 'none'
+            })
+        })
 
         $("#editbtn").on('click', () => {
 
@@ -379,7 +581,7 @@
             if (edit_phone == '' || edit_pas == '') {
                 $("#edit_span").text('همه بخش ها را پر کنید')
             }
-            console.log(edit_phone, edit_pas)
+
             $.ajax({
                 url: 'cuntact/edit_check',
                 type: 'post',
@@ -470,47 +672,91 @@
 
 
         $("#send").on('click', () => {
-            console.log($('#message').val());
-            console.log(sessionStorage.getItem('getmassege'));
+            if ($('#message').val() == "") {
 
-            $.ajax({
-                url:'massege/massege',
-                type:'post',
-                data:{
-                    'massege': $('#message').val(),
-                    'getid': sessionStorage.getItem('getmassege')
-                   
-                },
-                success:(response)=>{
-                    response=JSON.parse(response);
-                    console.log(response)
+            } else {
+                console.log($('#message').val());
+                console.log(sessionStorage.getItem('getmassege'));
 
-                }
-            })
-            
+                $.ajax({
+                    url: 'massege/massege',
+                    type: 'post',
+                    data: {
+                        'massege': $('#message').val(),
+                        'getid': sessionStorage.getItem('getmassege')
 
+                    },
+                    success: async () => {
+
+                        $('#message').val("")
+                        await get_message();
+
+                    }
+                })
+
+            }
         })
 
-        function get_message(username){
 
+
+        function get_message() {
+            document.getElementById('messagebox').innerHTML = '';
             $.ajax({
-                url: 'massege/get_message',
-                type:'post',
-                data:{
-                    'username':username
+                url: 'massege/get_massage',
+                type: 'post',
+                data: {
+                    'username': sessionStorage.getItem('getmassege')
                 },
-                success:(response)=>{
+                success: (response) => {
 
-                    response=JSON.parse(response);
+                    response = JSON.parse(response);
 
-                    if(response.status_code =='109'){
+                    if (response.status_code == '109') {
 
+
+                        for (i = 0; response.data.length; i++) {
+                            add_massege_text(response.data[i]['text'], response.data[i]['datesend'], response.data[i]['sendid'], response.data[i]['id'])
+                        }
 
                     }
                 }
 
             })
 
+
+        }
+
+        function add_massege_text(massage, time, sendid, id) {
+
+            //     <div class="messagee sel">
+            //         <p> text <br> <span>time</span></p>
+            //     </div>
+
+            message = document.createElement('div');
+            message.setAttribute('onclick', ' massege_click("' + id + '")')
+
+            if (sendid == <?= $_SESSION['id'] ?>) {
+                message.setAttribute('class', 'messagee sel');
+            } else {
+                message.setAttribute('class', 'messagee get');
+            }
+
+
+            p = document.createElement('p');
+            p.innerHTML = massage + ' <br> <span>' + time + '</span>'
+
+            message.appendChild(p);
+            document.querySelector('.messagebox').append(message);
+
+            $("#messagebox").prepend(message);
+
+
+        }
+
+        function massege_click(id) {
+            $("#massege_modal").css({
+                'display': 'block'
+            })
 
         }
     </script>
