@@ -29,7 +29,7 @@
         </form>
 
     </div>
-
+({})
 
 
     <script src="public/js/jquery-3.4.1.min.js"></script>
@@ -63,7 +63,8 @@
             }
         }
 
-        function check_img() {
+
+        async function check_img() {
 
             let form_data = new FormData;
             let img = $("#img")[0].files;
@@ -93,6 +94,7 @@
                         if (response.status_code == '204') {
                             sessionStorage.setItem('img_name', response.name);
                             sessionStorage.setItem('tmp_name', response.tmp_name);
+
                         }
 
                     }
@@ -107,9 +109,10 @@
 
         }
 
-        $("#btn").on('click', async function() {
-            let img = await check_img();
-            console.log(img)
+        $("#btn").on('click', function() {
+
+            let form_data = new FormData;
+            let img = $("#img")[0].files;
 
             if ($("#name").val() == '' || $("#username").val() == '' || $("#password").val() == '' || $("#confirm_password").val() == '') {
                 $("#showerror").text("همه قسمت هارا پر کنید");
@@ -122,29 +125,35 @@
                 $("#showerror").text(" پسورد باید بین 6 تا 20 کاراکتر و شامل حروف کوچک و بزرگ انگلیسی , اعداد باشد");
                 $("#password").val("")
                 $("#confirm_password").val("")
-
-            } else if (img == false) {
-                $("#showerror").text('یک عکس انتخواب کنید')
+                // } else if (img.length <= 0) {
+                //     $("#showerror").text('یک عکس انتخواب کنید')
+                // } else if (img.length > 0) {
+                //     form_data.append('img', img[0]);
             } else {
-                console.log(sessionStorage.getItem('img_name'))
-                console.log(sessionStorage.getItem('tmp_name'))
+
                 $.ajax({
                     url: "<?= URL; ?>register/insert_data",
                     type: "POST",
                     data: {
                         "name": $("#name").val(),
                         "username": $("#username").val(),
-                        "imgname": sessionStorage.getItem('img_name'),
-                        "tmp_name": sessionStorage.getItem('tmp_name'),
                         "password": $("#password").val(),
-                        "confirm_password": $("#confirm_password").val(),
+                        // form_data,
                     },
 
-                    success: () => {
-                            sessionStorage.removeItem('img_name'),
-                            sessionStorage.removeItem('tmp_name'),
-                            window.location = "<?= URL; ?>login"
-                        },
+                    // contentType: false,
+                    // processData: false,
+
+                    success: (response) => {
+
+                        response = JSON.parse(response)
+                        if (response.status_code == '200') {
+                            $("#showerror").text(response.msg)
+                        }
+
+
+                        window.location = "<?= URL; ?>login"
+                    },
 
                     error: function(response) {
                         alert("خطای 500");

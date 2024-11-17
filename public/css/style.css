@@ -354,7 +354,9 @@ body {
   z-index: 1;
   border-radius: 15px;
 }
-
+#massege_modal_p{
+  overflow: hidden;
+}
 #modal_update .edit_username {
   display: none;
 }

@@ -34,7 +34,12 @@
             <div class="header">
                 <div class="userimg">
                     <?php
-                    $path = URL . "/public/images/profile/" . $_SESSION['src'] ?>
+                    if( $_SESSION['src'] == "" ){
+                        $path =  "/public/images/difult.png";
+                    }else{
+                         $path = URL . "/public/images/profile/" . $_SESSION['src'] ;
+                    }?>
+                   
                     <img src=<?= $path ?> class="img" alt="">
                 </div>
                 <div class="listhead">
@@ -151,7 +156,7 @@
         <div id="massege_modal" class="modal">
 
             <li id="massege_close" class="icon"><i class="fa-solid fa-rectangle-xmark"></i></li>
-
+            <p id="massege_modal_p"></p>
             <ul>
                 <li>ویرایش</li>
                 <li>حذف</li>
@@ -242,8 +247,8 @@
             $("#delit_acunt").css({
                 'display': 'none'
             })
-            
-            
+
+
         })
 
         $("#Exit").on('click', () => {
@@ -673,10 +678,27 @@
                         'getid': sessionStorage.getItem('getmassege')
 
                     },
-                    success: async () => {
+                    success: () => {
 
+                        message = document.createElement('div');
+                        lastid =
+                            id = sessionStorage.getItem('id_m') + 1
+                        sessionStorage.removeItem('id_m')
+                        sessionStorage.setItem('id_m', id)
+                        message.setAttribute('onclick', ' massege_click("' + id + '")')
+
+                        message.setAttribute('class', 'messagee sel');
+
+                        var time = new Date();
+                        var time2 = time.getTime()
+                        p = document.createElement('p');
+                        // p.setAttribute('id','p'+id)
+                        p.innerHTML = $('#message').val() + ' <br> <span>' + time2 + '</span>'
+
+                        message.appendChild(p);
+
+                        $("#messagebox").append(message);
                         $('#message').val("")
-                        await get_message();
 
                     }
                 })
@@ -698,11 +720,15 @@
 
                     if (response.status_code == '109') {
 
-
+                        var i = 0;
                         for (i = 0; response.data.length; i++) {
                             add_massege_text(response.data[i]['text'], response.data[i]['datesend'], response.data[i]['sendid'], response.data[i]['id'])
-                        }
+                            sessionStorage.removeItem('id_m')
+                            sessionStorage.setItem('id_m', response.data[i]['id'])
 
+
+                        }
+                       
                     }
                 }
 
@@ -718,6 +744,7 @@
             //     </div>
 
             message = document.createElement('div');
+            message.setAttribute('id', id)
             message.setAttribute('onclick', ' massege_click("' + id + '")')
 
             if (sendid == <?= $_SESSION['id'] ?>) {
@@ -728,12 +755,16 @@
 
 
             p = document.createElement('p');
+            p.setAttribute('id', 'p' + id)
             p.innerHTML = massage + ' <br> <span>' + time + '</span>'
 
-            message.appendChild(p);
-            document.querySelector('.messagebox').append(message);
 
-            $("#messagebox").prepend(message);
+            message.appendChild(p);
+            document.querySelector('.messagebox').prepend(message);
+
+            var scrol = document.getElementById(id)
+                        scrol.scrollIntoView();
+
 
 
         }
@@ -742,6 +773,8 @@
             $("#massege_modal").css({
                 'display': 'block'
             })
+
+            $("#massege_modal_p").text($("#p" + id).text())
 
         }
     </script>
